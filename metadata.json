@@ -1,0 +1,7 @@
+{
+  "name": "SpinWheel Pro - Win Real Rewards",
+  "description": "A premium spin-the-wheel application with anti-fraud deposit verification, daily rewards, and referral systems.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
