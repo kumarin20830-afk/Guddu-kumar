@@ -3,7 +3,7 @@ import {
   Bell, CreditCard, RotateCw, User, LogOut, ShieldCheck, 
   MessageCircle, History, AlertTriangle, Gift, CheckCircle2, 
   Lock, Smartphone, ArrowRight, Wallet, Users, XCircle, Search,
-  Filter, Calendar, RefreshCw, Star
+  Filter, Calendar, RefreshCw, Star, Copy
 } from 'lucide-react';
 import SpinWheel from './components/SpinWheel';
 import { PromoBanner } from './components/PromoBanner';
@@ -572,21 +572,38 @@ const App: React.FC = () => {
       </div>
 
       {/* Referral Banner */}
-      <div className="mb-6 bg-gradient-to-r from-purple-900 to-indigo-900 rounded-xl p-4 flex items-center justify-between border border-purple-500/30 cursor-pointer hover:opacity-90 transition-opacity"
-           onClick={() => {
-             const link = `${window.location.origin}?ref=${currentUser?.referralCode}`;
-             navigator.clipboard.writeText(link);
-             addNotification("Link copied to clipboard!", "success");
-           }}>
-        <div className="flex items-center gap-3">
-           <Gift className="text-yellow-400 w-8 h-8 animate-bounce" />
-           <div>
-             <h3 className="font-bold text-white text-sm">Refer & Earn</h3>
-             <p className="text-xs text-purple-200">Get 200 coins per friend</p>
-           </div>
+      <div className="mb-6 bg-gradient-to-r from-purple-900 to-indigo-900 rounded-xl p-4 border border-purple-500/30 shadow-lg relative overflow-hidden group">
+        <div className="absolute top-0 right-0 p-4 opacity-10 transform translate-x-4 -translate-y-4 pointer-events-none">
+           <Gift size={100} />
         </div>
-        <div className="bg-white/10 p-2 rounded-lg">
-           <p className="text-xs font-mono text-purple-200">{currentUser?.referralCode}</p>
+
+        <div className="flex justify-between items-center relative z-10">
+          <div className="flex items-center gap-3">
+             <div className="bg-purple-800 p-2 rounded-lg">
+                <Gift className="text-yellow-400 w-6 h-6 animate-bounce" />
+             </div>
+             <div>
+               <h3 className="font-bold text-white text-sm">Refer & Earn</h3>
+               <p className="text-xs text-purple-200">Get 200 coins per friend</p>
+             </div>
+          </div>
+          
+          <div className="flex flex-col items-end gap-2">
+             <div className="bg-black/20 px-3 py-1 rounded border border-white/5 backdrop-blur-sm">
+                <span className="text-xs font-mono text-purple-100 tracking-wider">{currentUser?.referralCode}</span>
+             </div>
+             <button 
+               onClick={() => {
+                 const link = `${window.location.origin}?ref=${currentUser?.referralCode}`;
+                 navigator.clipboard.writeText(link);
+                 addNotification("Referral link copied!", "success");
+               }}
+               className="flex items-center gap-1.5 bg-white text-purple-900 hover:bg-purple-50 text-xs font-bold px-3 py-1.5 rounded-full transition-colors shadow-sm"
+             >
+               <Copy size={12} />
+               Copy Link
+             </button>
+          </div>
         </div>
       </div>
 
@@ -1036,18 +1053,4 @@ const App: React.FC = () => {
             pointer-events-auto p-4 rounded-xl shadow-2xl flex items-center gap-3 animate-in slide-in-from-top-4 fade-in duration-300
             ${n.type === 'success' ? 'bg-green-600 text-white' : 
               n.type === 'error' ? 'bg-red-600 text-white' : 
-              n.type === 'warning' ? 'bg-orange-500 text-white' : 'bg-slate-800 text-white border border-slate-700'}
-          `}>
-            {n.type === 'success' ? <CheckCircle2 size={20} /> :
-             n.type === 'error' ? <XCircle size={20} /> :
-             n.type === 'warning' ? <AlertTriangle size={20} /> : <Bell size={20} />}
-            <span className="font-medium text-sm">{n.message}</span>
-          </div>
-        ))}
-      </div>
-
-    </div>
-  );
-};
-
-export default App;
+              n.type
